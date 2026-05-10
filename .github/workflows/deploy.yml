@@ -9,8 +9,11 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'README.md'
-      - '.gitignore'
+      - "README.md"
+      - ".gitignore"
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-and-push:
