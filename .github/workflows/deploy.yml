@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE=ghcr.io/${{ github.repository_owner }}/url-shortener-frontend
+          IMAGE=ghcr.io/${{ github.repository_owner }}/cloud-frontend
           IMAGE=${IMAGE,,}
           docker build \
             --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
@@ -43,7 +43,7 @@ jobs:
 
       - name: Push Docker image
         run: |
-          IMAGE=ghcr.io/${{ github.repository_owner }}/url-shortener-frontend
+          IMAGE=ghcr.io/${{ github.repository_owner }}/cloud-frontend
           IMAGE=${IMAGE,,}
           docker push ${IMAGE}:latest
           docker push ${IMAGE}:${{ github.sha }}
