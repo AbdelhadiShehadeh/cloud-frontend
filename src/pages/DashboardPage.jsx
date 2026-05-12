@@ -174,84 +174,83 @@ export default function DashboardPage() {
               No links yet. Shorten your first URL above!
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="min-w-[160px]">Original URL</TableHead>
-                    <TableHead className="min-w-[140px]">Short URL</TableHead>
-                    <TableHead className="w-20 text-center">Clicks</TableHead>
-                    <TableHead className="w-28">Created</TableHead>
-                    <TableHead className="w-36 text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {links.map((link) => (
-                    <TableRow key={link.id}>
-                      <TableCell
-                        className="max-w-xs truncate font-mono text-xs"
-                        title={link.originalUrl}
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[35%]">Original URL</TableHead>
+                  <TableHead className="w-[25%]">Short URL</TableHead>
+                  <TableHead className="w-16 text-center">Clicks</TableHead>
+                  <TableHead className="w-24">Created</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {links.map((link) => (
+                  <TableRow key={link.id}>
+                    <TableCell
+                      className="max-w-0 truncate font-mono text-xs"
+                      title={link.originalUrl}
+                    >
+                      {truncate(link.originalUrl, 45)}
+                    </TableCell>
+                    <TableCell className="max-w-0 truncate">
+                      <a
+                        href={toShortUrl(link)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-xs text-primary underline underline-offset-4"
+                        title={toShortUrl(link)}
                       >
-                        {truncate(link.originalUrl, 45)}
-                      </TableCell>
-                      <TableCell>
-                        <a
-                          href={toShortUrl(link)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-mono text-xs text-primary underline underline-offset-4"
+                        {truncate(toShortUrl(link), 30)}
+                      </a>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant="secondary">{link.clickCount ?? link.clicks ?? 0}</Badge>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {formatDate(link.createdAt)}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-1.5">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => navigate(`/analytics/${link.id}`)}
                         >
-                          {toShortUrl(link)}
-                        </a>
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <Badge variant="secondary">{link.clickCount ?? link.clicks ?? 0}</Badge>
-                      </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {formatDate(link.createdAt)}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-1.5">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => navigate(`/analytics/${link.id}`)}
-                          >
-                            <BarChart2 className="mr-1 h-3.5 w-3.5" />
-                            Analytics
-                          </Button>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button variant="destructive" size="sm">
-                                <Trash2 className="h-3.5 w-3.5" />
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Delete link?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  This will permanently delete the short URL and all its analytics
-                                  data. This action cannot be undone.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => handleDelete(link.id)}
-                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                >
-                                  Delete
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                          <BarChart2 className="mr-1 h-3.5 w-3.5" />
+                          Analytics
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="destructive" size="sm">
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete link?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This will permanently delete the short URL and all its analytics
+                                data. This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDelete(link.id)}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
